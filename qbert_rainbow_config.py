@@ -41,7 +41,7 @@ qbert_rainbow_config = dict(
                 end=0.05,
                 decay=1000000,
             ),
-            replay_buffer=dict(replay_buffer_size=1000, ),
+            replay_buffer=dict(replay_buffer_size=4000, ),
         ),
     ),
 )
