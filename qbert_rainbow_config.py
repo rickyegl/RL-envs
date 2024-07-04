@@ -33,7 +33,7 @@ qbert_rainbow_config = dict(
             iqn=False,
         ),
         collect=dict(n_sample=100, ),
-        eval=dict(evaluator=dict(eval_freq=14000, )),
+        eval=dict(evaluator=dict(eval_freq=64000, )),
         other=dict(
             eps=dict(
                 type='exp',
