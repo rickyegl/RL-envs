@@ -1,4 +1,9 @@
+from ding.model import RainbowDQN
 from easydict import EasyDict
+import torch
+import os
+
+os.chdir(os.path.dirname(__file__))
 
 qbert_rainbow_config = dict(
     exp_name='qbert_rainbow_seed0',
@@ -33,7 +38,7 @@ qbert_rainbow_config = dict(
             iqn=False,
         ),
         collect=dict(n_sample=100, ),
-        eval=dict(evaluator=dict(eval_freq=4000, )),
+        eval=dict(evaluator=dict(eval_freq=4000,)),
         other=dict(
             eps=dict(
                 type='exp',
@@ -59,5 +64,11 @@ create_config = EasyDict(qbert_rainbow_create_config)
 
 if __name__ == '__main__':
     # or you can enter ding -m serial -c qbert_rainbow_config.py -s 0
-    from ding.entry import serial_pipeline
-    serial_pipeline((main_config, create_config), seed=0)
+    model = RainbowDQN(**main_config.policy.model)
+    state_dict = torch.load(r"./ckpt_best.pth.tar", map_location='cpu')
+    model.load_state_dict(state_dict['model'])
+    import cereal_entry
+    cereal_entry.serial_pipeline((main_config, create_config), seed=0,model=model)
+    
+    #from ding.entry import serial_pipeline
+    #serial_pipeline((main_config, create_config), seed=0,model=model)
