@@ -23,7 +23,8 @@ def serial_pipeline(
         max_train_iter: Optional[int] = int(1e10),
         max_env_step: Optional[int] = int(1e10),
         dynamic_seed: Optional[bool] = True,
-        buffer_load_path: str = './replay.pkl'
+        buffer_load_path: str = './replay.pkl',
+        save_replay: str = True
 ) -> 'Policy':  # noqa
     """
     Overview:
@@ -81,7 +82,9 @@ def serial_pipeline(
         tb_logger=tb_logger,
         exp_name=cfg.exp_name
     )
+    print(cfg.policy.other.replay_buffer)
     replay_buffer = create_buffer(cfg.policy.other.replay_buffer, tb_logger=tb_logger, exp_name=cfg.exp_name)
+    replay_buffer.save_replay = save_replay
     if(os.path.exists(buffer_load_path)):
         print("loading buffer")
         replay_buffer.load_data(buffer_load_path)
@@ -100,7 +103,7 @@ def serial_pipeline(
     if cfg.policy.get('random_collect_size', 0) > 0:
         random_collect(cfg.policy, policy, collector, collector_env, commander, replay_buffer)
     while True:
-        print("training loop")
+        #print("training loop")
         collect_kwargs = commander.step()
         # Evaluate policy performance
         if evaluator.should_eval(learner.train_iter):
