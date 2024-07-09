@@ -93,6 +93,7 @@ def serial_pipeline(
     # Main loop
     # ==========
     # Learner's before_run hook.
+    print("before run")
     learner.call_hook('before_run')
 
     # Accumulate plenty of data at the beginning of training.
