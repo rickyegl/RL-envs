@@ -85,6 +85,7 @@ def serial_pipeline(
     if(os.path.exists(buffer_load_path)):
         print("loading buffer")
         replay_buffer.load_data(buffer_load_path)
+        print("buffer loaded")
     commander = BaseSerialCommander(
         cfg.policy.other.commander, learner, collector, evaluator, replay_buffer, policy.command_mode
     )
