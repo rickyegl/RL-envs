@@ -83,6 +83,7 @@ def serial_pipeline(
     )
     replay_buffer = create_buffer(cfg.policy.other.replay_buffer, tb_logger=tb_logger, exp_name=cfg.exp_name)
     if(os.path.exists(buffer_load_path)):
+        print("loading buffer")
         replay_buffer.load_data(buffer_load_path)
     commander = BaseSerialCommander(
         cfg.policy.other.commander, learner, collector, evaluator, replay_buffer, policy.command_mode
@@ -97,6 +98,7 @@ def serial_pipeline(
     if cfg.policy.get('random_collect_size', 0) > 0:
         random_collect(cfg.policy, policy, collector, collector_env, commander, replay_buffer)
     while True:
+        print("training loop")
         collect_kwargs = commander.step()
         # Evaluate policy performance
         if evaluator.should_eval(learner.train_iter):
