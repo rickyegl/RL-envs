@@ -62,10 +62,12 @@ qbert_rainbow_create_config = dict(
 )
 create_config = EasyDict(qbert_rainbow_create_config)
 
+#e3 contains stage
+
 if __name__ == '__main__':
     model = RainbowDQN(**main_config.policy.model)
     if(os.path.exists("./ckpt_best.pth.tar")):
         state_dict = torch.load(r"./ckpt_best.pth.tar", map_location='cpu')
         model.load_state_dict(state_dict['model'])
     import cereal_entry
-    cereal_entry.serial_pipeline((main_config, create_config), seed=0,model=model)
+    cereal_entry.serial_pipeline((main_config, create_config), seed=0,model=model, save_replay_buffer = True)
