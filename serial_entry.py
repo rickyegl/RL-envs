@@ -24,7 +24,7 @@ def serial_pipeline(
         max_env_step: Optional[int] = int(1e10),
         dynamic_seed: Optional[bool] = True,
         buffer_load_path: str = './replay.pkl',
-        save_replay: str = True
+        save_replay_buffer: str = False
 ) -> 'Policy':  # noqa
     """
     Overview:
@@ -84,7 +84,7 @@ def serial_pipeline(
     )
     print(cfg.policy.other.replay_buffer)
     replay_buffer = create_buffer(cfg.policy.other.replay_buffer, tb_logger=tb_logger, exp_name=cfg.exp_name)
-    replay_buffer.save_replay = save_replay
+    replay_buffer.save_replay = save_replay_buffer
     if(os.path.exists(buffer_load_path)):
         print("loading buffer")
         replay_buffer.load_data(buffer_load_path)
